@@ -1,0 +1,48 @@
+# deps
+node_modules/
+.pnpm-store/
+
+# secrets — never commit
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+secrets.json
+
+# build / runtime
+dist/
+build/
+.next/
+.turbo/
+*.tsbuildinfo
+
+# scratch + generated media
+tmp/
+scratch/
+*.log
+out/
+generated/
+*.png
+*.jpg
+*.jpeg
+*.mp3
+*.wav
+*.m4a
+!assets/**
+
+# apify
+apify_storage/
+storage/
+.actor/output/
+
+# os / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+
+# convex
+.env.local
+.cache/

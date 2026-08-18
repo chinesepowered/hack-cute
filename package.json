@@ -1,0 +1,14 @@
+{
+  "name": "wish-you-were-here",
+  "private": true,
+  "type": "module",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "node server.mjs",
+    "start": "node server.mjs",
+    "make": "node src/cli.mjs"
+  },
+  "dependencies": {
+    "convex": "^1.44.0"
+  }
+}

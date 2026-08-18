@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Wish You Were Here</title>
+<style>
+  :root{
+    --bg:#0f0d14; --panel:#191622; --line:#2b2536;
+    --ink:#f2ecff; --dim:#9a90ad; --accent:#ffb86b; --accent2:#ff7eb6; --ok:#7ee787;
+  }
+  *{box-sizing:border-box; margin:0; padding:0}
+  html,body{height:100%}
+  body{
+    background:var(--bg); color:var(--ink);
+    font:16px/1.6 ui-serif,Georgia,serif; overflow:hidden;
+  }
+  .deck{height:100vh; width:100vw; position:relative}
+  .slide{
+    position:absolute; inset:0; display:none;
+    flex-direction:column; justify-content:center;
+    padding:5vh 7vw; opacity:0; transition:opacity .35s ease;
+  }
+  .slide.on{display:flex; opacity:1}
+
+  .kicker{
+    font-size:clamp(11px,1.1vw,14px); letter-spacing:.22em; text-transform:uppercase;
+    color:var(--accent); margin-bottom:2.4vh; font-family:ui-sans-serif,system-ui,sans-serif;
+  }
+  h1{font-size:clamp(38px,6.4vw,92px); line-height:1.02; letter-spacing:-.03em; font-weight:600}
+  h1 em{font-style:normal; color:var(--accent)}
+  h2{font-size:clamp(26px,3.4vw,46px); line-height:1.15; letter-spacing:-.02em; margin-bottom:3.4vh; font-weight:600}
+  .lede{font-size:clamp(17px,1.85vw,25px); color:var(--dim); margin-top:3vh; max-width:22ch}
+
+  .split{display:grid; grid-template-columns:1.05fr .95fr; gap:5vw; align-items:center; flex:1}
+  @media (max-width:900px){ .split{grid-template-columns:1fr; gap:3vh} }
+
+  .lyric{
+    font-size:clamp(16px,1.6vw,23px); line-height:1.85; font-style:italic;
+    border-left:3px solid var(--accent); padding-left:1.6em;
+  }
+  .lyric b{font-style:normal; color:var(--accent); font-weight:600}
+  .lyric .src{
+    display:block; margin-top:1.6em; font-style:normal; font-size:clamp(12px,1.05vw,15px);
+    color:var(--dim); border:0; font-family:ui-sans-serif,system-ui,sans-serif;
+  }
+
+  .feed{background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:2.4vh 1.8vw; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:clamp(11px,1.02vw,15px); line-height:2}
+  .feed .no{color:#6b6280}
+  .feed .no::before{content:"✗ "; color:#ff7b72}
+  .feed .yes{color:var(--ink)}
+  .feed .yes::before{content:"✓ "; color:var(--ok)}
+  .feed .tag{display:block; margin-top:1.4em; color:var(--accent); font-size:.92em}
+
+  .pipe{display:flex; flex-wrap:wrap; gap:.7vw; margin-top:1vh}
+  .stage{
+    flex:1 1 150px; background:var(--panel); border:1px solid var(--line);
+    border-radius:12px; padding:1.9vh 1.1vw;
+  }
+  .stage .who{
+    font-family:ui-sans-serif,system-ui,sans-serif; font-size:clamp(11px,.95vw,13px);
+    letter-spacing:.13em; text-transform:uppercase; color:var(--accent); margin-bottom:.5em;
+  }
+  .stage .what{font-size:clamp(13px,1.15vw,17px); line-height:1.4}
+  .stage .ms{color:var(--dim); font-size:clamp(11px,.95vw,13px); margin-top:.5em; font-family:ui-sans-serif,system-ui,sans-serif}
+
+  .foot{
+    margin-top:4vh; font-size:clamp(14px,1.4vw,20px); color:var(--dim);
+    border-top:1px solid var(--line); padding-top:2.4vh;
+  }
+  .foot b{color:var(--ink); font-weight:600}
+
+  .nav{position:fixed; bottom:2.4vh; right:2.6vw; display:flex; gap:.8rem; align-items:center; z-index:10}
+  .nav button{
+    background:var(--panel); color:var(--dim); border:1px solid var(--line);
+    width:38px; height:38px; border-radius:9px; font-size:17px; cursor:pointer;
+  }
+  .nav button:hover{color:var(--ink); border-color:var(--accent)}
+  .num{color:var(--dim); font-size:13px; font-family:ui-sans-serif,system-ui,sans-serif}
+</style>
+</head>
+<body>
+<div class="deck">
+
+  <!-- ============ 1 ============ -->
+  <section class="slide on" id="s1">
+    <div class="kicker">Wish You Were Here</div>
+    <div class="split">
+      <div>
+        <h1>Someone you love is <em>far away</em>.</h1>
+        <p class="lede">
+          Every message comes out the same. <em style="color:var(--ink);font-style:normal">“Miss you, hope you’re okay.”</em>
+          The hard part was never the caring — it’s the <b style="color:var(--accent);font-weight:600">noticing</b>.
+        </p>
+      </div>
+      <div class="lyric">
+        The gray horizon sweeps across your town,<br>
+        As relentless monsoon rains come pouring down.<br>
+        <b>The jeepney drivers laugh through every flooded street,</b><br>
+        <b>While LRT platforms fall silent in the sudden squall.</b><br>
+        Ana, I miss you plainly, with all my heart…
+        <span class="src">🎵 Sung for someone in Manila. Every detail was posted there <b style="color:var(--accent)">this morning</b>.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 2 ============ -->
+  <section class="slide" id="s2">
+    <div class="kicker">How it works</div>
+    <h2>No model knows what happened in Manila today.<br>So we went and got it. 🕷️</h2>
+
+    <div class="split" style="flex:0 0 auto; margin-bottom:3vh">
+      <div class="feed">
+        <span class="no">“Okada Manila – luxury resort…”</span>
+        <span class="no">“OP 39MM WATCH ₱450,000‼️”</span>
+        <span class="no">“MUSCAT GREEN GRAPES 🍇”</span>
+        <span class="yes">“Manila’s rain is relentless, but the jeepney driver laughs”</span>
+        <span class="tag">~80 posts scraped · 1 in 8 is real</span>
+      </div>
+      <p class="lede" style="margin:0">
+        Instagram is walled off from search grounding, and the moment expires in
+        48 hours. <b style="color:var(--ink);font-weight:600">Apify is the only way in</b> —
+        so we scrape at volume and let Gemini find the one that matters.
+      </p>
+    </div>
+
+    <div class="pipe">
+      <div class="stage"><div class="who">Apify</div><div class="what">🕷️ Scrape their city</div><div class="ms">~8s</div></div>
+      <div class="stage"><div class="who">Gemini</div><div class="what">🧹 Keep what’s real</div><div class="ms">~5s</div></div>
+      <div class="stage"><div class="who">Lyria 3</div><div class="what">🎵 Sing it</div><div class="ms">~10s</div></div>
+      <div class="stage"><div class="who">Nano Banana</div><div class="what">🖼️ Postcard it</div><div class="ms">~7s</div></div>
+      <div class="stage"><div class="who">Vapi</div><div class="what">📞 Call them</div><div class="ms">~2s</div></div>
+    </div>
+
+    <p class="foot">
+      For every international student who hasn’t been home in two years. 💌<br>
+      <b>There was something else to say — and now it’s a song.</b>
+    </p>
+  </section>
+
+</div>
+
+<div class="nav">
+  <span class="num" id="num">1 / 2</span>
+  <button id="prev" aria-label="Previous slide">‹</button>
+  <button id="next" aria-label="Next slide">›</button>
+</div>
+
+<script>
+  const slides = [...document.querySelectorAll('.slide')];
+  let i = 0;
+  function show(n){
+    i = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach((s, k) => s.classList.toggle('on', k === i));
+    document.getElementById('num').textContent = (i + 1) + ' / ' + slides.length;
+  }
+  document.getElementById('next').onclick = () => show(i + 1);
+  document.getElementById('prev').onclick = () => show(i - 1);
+  addEventListener('keydown', e => {
+    if (['ArrowRight',' ','PageDown','Enter'].includes(e.key)) { e.preventDefault(); show(i + 1); }
+    if (['ArrowLeft','PageUp','Backspace'].includes(e.key))    { e.preventDefault(); show(i - 1); }
+  });
+  addEventListener('click', e => { if (!e.target.closest('.nav')) show(i + 1); });
+</script>
+</body>
+</html>
