@@ -52,8 +52,16 @@ export const create = mutation({
     sender: v.string(),
     phone: v.optional(v.string()),
     email: v.optional(v.string()),
+    password: v.string(),
   },
-  handler: async (ctx, args) => {
+  handler: async (ctx, { password, ...args }) => {
+    // Generation burns Apify credits and Gemini quota, so it's gated.
+    // The secret lives in a deployment env var, never in this (public) repo.
+    const expected = process.env.GENERATE_PASSWORD;
+    if (expected && password !== expected) {
+      throw new Error("Wrong password.");
+    }
+
     const id = await ctx.db.insert("postcards", {
       ...args,
       state: "running",

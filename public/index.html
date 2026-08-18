@@ -94,26 +94,47 @@ function home() {
       </div>
       <div class="row">
         <div><label>Their phone — optional, we'll call them</label><input id="phone" placeholder="+1…"></div>
-        <div></div>
+        <div><label>Password</label><input id="pw" type="password" placeholder="••••••••"></div>
       </div>
       <button id="go">Make their postcard</button>
+      <p class="muted" id="gerr" style="margin-top:11px;display:none"></p>
     </div>
 
     <div id="live"></div>
     <div class="card"><label>Made so far</label><div class="grid" id="recent"></div></div>`;
 
+  // Remembered so the demo isn't retyping a password on stage.
+  const pwField = document.getElementById("pw");
+  pwField.value = localStorage.getItem("wywh_pw") ?? "";
+
   document.getElementById("go").onclick = async () => {
-    const city = document.getElementById("city").value.trim() || "Manila";
+    const go = document.getElementById("go");
+    const err = document.getElementById("gerr");
+    const password = pwField.value;
+    if (!password) {
+      err.style.display = "block";
+      err.textContent = "Password required — generation costs real quota.";
+      return;
+    }
     const b = {
-      city,
+      city: document.getElementById("city").value.trim() || "Manila",
       recipient: document.getElementById("recipient").value.trim() || "you",
       sender: document.getElementById("sender").value.trim() || "someone",
       phone: document.getElementById("phone").value.trim() || undefined,
       email: document.getElementById("email").value.trim() || undefined,
+      password,
     };
-    document.getElementById("go").disabled = true;
-    const id = await client.mutation(api.postcards.create, b);
-    watch(id, true);
+    go.disabled = true;
+    err.style.display = "none";
+    try {
+      const id = await client.mutation(api.postcards.create, b);
+      localStorage.setItem("wywh_pw", password);
+      watch(id, true);
+    } catch (e) {
+      go.disabled = false;
+      err.style.display = "block";
+      err.textContent = /password/i.test(String(e.message)) ? "Wrong password." : "Couldn't start — try again.";
+    }
   };
 
   // Reactive: new postcards appear here the moment anyone makes one.
