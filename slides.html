@@ -7,74 +7,73 @@
 <style>
   :root{
     --bg:#0f0d14; --panel:#191622; --line:#2b2536;
-    --ink:#f2ecff; --dim:#9a90ad; --accent:#ffb86b; --accent2:#ff7eb6; --ok:#7ee787;
+    --ink:#f2ecff; --dim:#9a90ad; --accent:#ffb86b; --accent2:#ff7eb6;
+    --ok:#7ee787; --bad:#ff7b72; --convex:#f3b01c;
   }
   *{box-sizing:border-box; margin:0; padding:0}
   html,body{height:100%}
-  body{
-    background:var(--bg); color:var(--ink);
-    font:16px/1.6 ui-serif,Georgia,serif; overflow:hidden;
-  }
+  body{background:var(--bg); color:var(--ink); font:16px/1.6 ui-serif,Georgia,serif; overflow:hidden}
   .deck{height:100vh; width:100vw; position:relative}
-  .slide{
-    position:absolute; inset:0; display:none;
-    flex-direction:column; justify-content:center;
-    padding:5vh 7vw; opacity:0; transition:opacity .35s ease;
-  }
+  .slide{position:absolute; inset:0; display:none; flex-direction:column;
+         justify-content:center; padding:5vh 6vw; opacity:0; transition:opacity .35s ease}
   .slide.on{display:flex; opacity:1}
 
-  .kicker{
-    font-size:clamp(11px,1.1vw,14px); letter-spacing:.22em; text-transform:uppercase;
-    color:var(--accent); margin-bottom:2.4vh; font-family:ui-sans-serif,system-ui,sans-serif;
-  }
-  h1{font-size:clamp(38px,6.4vw,92px); line-height:1.02; letter-spacing:-.03em; font-weight:600}
+  .kicker{font-size:clamp(11px,1.05vw,14px); letter-spacing:.22em; text-transform:uppercase;
+          color:var(--accent); margin-bottom:2.2vh; font-family:ui-sans-serif,system-ui,sans-serif}
+  .kicker.cx{color:var(--convex)}
+  h1{font-size:clamp(36px,6.2vw,88px); line-height:1.02; letter-spacing:-.03em; font-weight:600}
   h1 em{font-style:normal; color:var(--accent)}
-  h2{font-size:clamp(26px,3.4vw,46px); line-height:1.15; letter-spacing:-.02em; margin-bottom:3.4vh; font-weight:600}
-  .lede{font-size:clamp(17px,1.85vw,25px); color:var(--dim); margin-top:3vh; max-width:22ch}
+  h2{font-size:clamp(24px,3.2vw,44px); line-height:1.15; letter-spacing:-.02em; margin-bottom:3vh; font-weight:600}
+  h2 em{font-style:normal; color:var(--convex)}
+  .lede{font-size:clamp(16px,1.75vw,24px); color:var(--dim); margin-top:2.6vh; max-width:24ch}
+  .lede b{color:var(--ink); font-weight:600}
 
-  .split{display:grid; grid-template-columns:1.05fr .95fr; gap:5vw; align-items:center; flex:1}
+  .split{display:grid; grid-template-columns:1.05fr .95fr; gap:4.5vw; align-items:center}
+  .split.grow{flex:1}
   @media (max-width:900px){ .split{grid-template-columns:1fr; gap:3vh} }
 
-  .lyric{
-    font-size:clamp(16px,1.6vw,23px); line-height:1.85; font-style:italic;
-    border-left:3px solid var(--accent); padding-left:1.6em;
-  }
+  .lyric{font-size:clamp(15px,1.5vw,22px); line-height:1.85; font-style:italic;
+         border-left:3px solid var(--accent); padding-left:1.5em}
   .lyric b{font-style:normal; color:var(--accent); font-weight:600}
-  .lyric .src{
-    display:block; margin-top:1.6em; font-style:normal; font-size:clamp(12px,1.05vw,15px);
-    color:var(--dim); border:0; font-family:ui-sans-serif,system-ui,sans-serif;
-  }
+  .lyric .src{display:block; margin-top:1.5em; font-style:normal;
+              font-size:clamp(11.5px,1vw,15px); color:var(--dim);
+              font-family:ui-sans-serif,system-ui,sans-serif}
 
-  .feed{background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:2.4vh 1.8vw; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:clamp(11px,1.02vw,15px); line-height:2}
-  .feed .no{color:#6b6280}
-  .feed .no::before{content:"✗ "; color:#ff7b72}
-  .feed .yes{color:var(--ink)}
-  .feed .yes::before{content:"✓ "; color:var(--ok)}
-  .feed .tag{display:block; margin-top:1.4em; color:var(--accent); font-size:.92em}
+  .feed{background:var(--panel); border:1px solid var(--line); border-radius:14px;
+        padding:2.2vh 1.6vw; font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+        font-size:clamp(10.5px,.98vw,14px); line-height:2}
+  .feed .no{color:#6b6280} .feed .no::before{content:"✗ "; color:var(--bad)}
+  .feed .yes{color:var(--ink)} .feed .yes::before{content:"✓ "; color:var(--ok)}
+  .feed .tag{display:block; margin-top:1.3em; color:var(--accent); font-size:.92em}
 
-  .pipe{display:flex; flex-wrap:wrap; gap:.7vw; margin-top:1vh}
-  .stage{
-    flex:1 1 150px; background:var(--panel); border:1px solid var(--line);
-    border-radius:12px; padding:1.9vh 1.1vw;
-  }
-  .stage .who{
-    font-family:ui-sans-serif,system-ui,sans-serif; font-size:clamp(11px,.95vw,13px);
-    letter-spacing:.13em; text-transform:uppercase; color:var(--accent); margin-bottom:.5em;
-  }
-  .stage .what{font-size:clamp(13px,1.15vw,17px); line-height:1.4}
-  .stage .ms{color:var(--dim); font-size:clamp(11px,.95vw,13px); margin-top:.5em; font-family:ui-sans-serif,system-ui,sans-serif}
+  .pipe{display:flex; flex-wrap:wrap; gap:.65vw; margin-top:1vh}
+  .stage{flex:1 1 140px; background:var(--panel); border:1px solid var(--line);
+         border-radius:12px; padding:1.7vh 1vw}
+  .stage .who{font-family:ui-sans-serif,system-ui,sans-serif; font-size:clamp(10px,.9vw,12.5px);
+              letter-spacing:.13em; text-transform:uppercase; color:var(--accent); margin-bottom:.45em}
+  .stage .what{font-size:clamp(12.5px,1.1vw,16px); line-height:1.4}
+  .stage .ms{color:var(--dim); font-size:clamp(10px,.9vw,12.5px); margin-top:.45em;
+             font-family:ui-sans-serif,system-ui,sans-serif}
 
-  .foot{
-    margin-top:4vh; font-size:clamp(14px,1.4vw,20px); color:var(--dim);
-    border-top:1px solid var(--line); padding-top:2.4vh;
-  }
+  /* convex slide */
+  .cxgrid{display:grid; grid-template-columns:repeat(4,1fr); gap:.8vw; margin:1vh 0 0}
+  @media (max-width:1000px){ .cxgrid{grid-template-columns:repeat(2,1fr)} }
+  .cx{background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:1.8vh 1.1vw}
+  .cx .ic{font-size:clamp(17px,1.6vw,23px); display:block; margin-bottom:.35em}
+  .cx .t{font-size:clamp(12.5px,1.15vw,16.5px); font-weight:600; letter-spacing:-.01em}
+  .cx .d{color:var(--dim); font-size:clamp(10.5px,.95vw,13.5px); line-height:1.5; margin-top:.3em;
+         font-family:ui-sans-serif,system-ui,sans-serif}
+  .cx.hero{border-color:var(--convex); background:linear-gradient(160deg,#241d16,#191622)}
+  .cx.hero .t{color:var(--convex)}
+
+  .foot{margin-top:3.4vh; font-size:clamp(13px,1.32vw,19px); color:var(--dim);
+        border-top:1px solid var(--line); padding-top:2.2vh}
   .foot b{color:var(--ink); font-weight:600}
+  .foot .cxb{color:var(--convex); font-weight:600}
 
-  .nav{position:fixed; bottom:2.4vh; right:2.6vw; display:flex; gap:.8rem; align-items:center; z-index:10}
-  .nav button{
-    background:var(--panel); color:var(--dim); border:1px solid var(--line);
-    width:38px; height:38px; border-radius:9px; font-size:17px; cursor:pointer;
-  }
+  .nav{position:fixed; bottom:2.2vh; right:2.4vw; display:flex; gap:.8rem; align-items:center; z-index:10}
+  .nav button{background:var(--panel); color:var(--dim); border:1px solid var(--line);
+              width:38px; height:38px; border-radius:9px; font-size:17px; cursor:pointer}
   .nav button:hover{color:var(--ink); border-color:var(--accent)}
   .num{color:var(--dim); font-size:13px; font-family:ui-sans-serif,system-ui,sans-serif}
 </style>
@@ -82,34 +81,36 @@
 <body>
 <div class="deck">
 
-  <!-- ============ 1 ============ -->
-  <section class="slide on" id="s1">
+  <!-- ================= 1 · the hook ================= -->
+  <section class="slide on">
     <div class="kicker">Wish You Were Here</div>
-    <div class="split">
+    <div class="split grow">
       <div>
         <h1>Someone you love is <em>far away</em>.</h1>
         <p class="lede">
-          Every message comes out the same. <em style="color:var(--ink);font-style:normal">“Miss you, hope you’re okay.”</em>
-          The hard part was never the caring — it’s the <b style="color:var(--accent);font-weight:600">noticing</b>.
+          Every message comes out the same. <b>“Miss you, hope you’re okay.”</b>
+          The hard part was never the caring — it’s the
+          <b style="color:var(--accent)">noticing</b>.
         </p>
       </div>
       <div class="lyric">
-        The gray horizon sweeps across your town,<br>
-        As relentless monsoon rains come pouring down.<br>
-        <b>The jeepney drivers laugh through every flooded street,</b><br>
-        <b>While LRT platforms fall silent in the sudden squall.</b><br>
-        Ana, I miss you plainly, with all my heart…
-        <span class="src">🎵 Sung for someone in Manila. Every detail was posted there <b style="color:var(--accent)">this morning</b>.</span>
+        I picture you out on the bustling streets at eight,<br>
+        before the heat rises and the <b>yellow danfos</b> fill with noise.<br>
+        I know you’re counting the fuel budget tonight,<br>
+        <b>praying that the generator starts on the first pull.</b>
+        <span class="src">🎵 Sung for someone in Lagos. Danfos are the yellow minibuses.
+        The generators are the power cuts. Every line was posted there
+        <b style="color:var(--accent)">that morning</b>.</span>
       </div>
     </div>
   </section>
 
-  <!-- ============ 2 ============ -->
-  <section class="slide" id="s2">
-    <div class="kicker">How it works</div>
-    <h2>No model knows what happened in Manila today.<br>So we went and got it. 🕷️</h2>
+  <!-- ================= 2 · the scrape ================= -->
+  <section class="slide">
+    <div class="kicker">Powered by Apify</div>
+    <h2>No model knows what happened in Lagos today.<br>So we went and got it. 🕷️</h2>
 
-    <div class="split" style="flex:0 0 auto; margin-bottom:3vh">
+    <div class="split" style="margin-bottom:2.6vh">
       <div class="feed">
         <span class="no">“Okada Manila – luxury resort…”</span>
         <span class="no">“OP 39MM WATCH ₱450,000‼️”</span>
@@ -119,8 +120,8 @@
       </div>
       <p class="lede" style="margin:0">
         Instagram is walled off from search grounding, and the moment expires in
-        48 hours. <b style="color:var(--ink);font-weight:600">Apify is the only way in</b> —
-        so we scrape at volume and let Gemini find the one that matters.
+        48 hours. <b>Apify is the only way in</b> — so we scrape at volume and read all
+        eighty to find the one that matters.
       </p>
     </div>
 
@@ -131,17 +132,49 @@
       <div class="stage"><div class="who">Nano Banana</div><div class="what">🖼️ Postcard it</div><div class="ms">~7s</div></div>
       <div class="stage"><div class="who">Vapi</div><div class="what">📞 Call them</div><div class="ms">~2s</div></div>
     </div>
+  </section>
+
+  <!-- ================= 3 · convex ================= -->
+  <section class="slide">
+    <div class="kicker cx">Built on Convex</div>
+    <h2>One deployment. <em>No backend to run.</em></h2>
+
+    <div class="cxgrid">
+      <div class="cx hero">
+        <span class="ic">⚡</span>
+        <div class="t">Reactive subscriptions</div>
+        <div class="d">Build progress streams live to every browser. <b>Zero polling</b> — it's just <code>onUpdate</code>.</div>
+      </div>
+      <div class="cx hero">
+        <span class="ic">🌐</span>
+        <div class="t">HTTP actions</div>
+        <div class="d">Serve the <b>entire frontend</b> from Convex. No Vercel, no S3, no separate API.</div>
+      </div>
+      <div class="cx"><span class="ic">⏱️</span><div class="t">Scheduler</div>
+        <div class="d">Mutation returns instantly; the 60s pipeline runs detached. No job queue.</div></div>
+      <div class="cx"><span class="ic">📦</span><div class="t">File storage</div>
+        <div class="d">The song and the postcard, served from their CDN.</div></div>
+      <div class="cx"><span class="ic">🗄️</span><div class="t">Database + indexes</div>
+        <div class="d">Typed tables for postcards and scrapes, three indexes.</div></div>
+      <div class="cx"><span class="ic">🎬</span><div class="t">Actions</div>
+        <div class="d">The only place Apify, Gemini and Vapi can be reached.</div></div>
+      <div class="cx"><span class="ic">⏰</span><div class="t">Cron</div>
+        <div class="d">Re-scrapes cities every 3h so details are always <b>today's</b>.</div></div>
+      <div class="cx"><span class="ic">🚀</span><div class="t">Live, public</div>
+        <div class="d"><code>convex.site</code> — open it on any phone in this room.</div></div>
+    </div>
 
     <p class="foot">
       For every international student who hasn’t been home in two years. 💌<br>
       <b>There was something else to say — and now it’s a song.</b>
+      <span class="cxb">Built end to end on Convex.</span>
     </p>
   </section>
 
 </div>
 
 <div class="nav">
-  <span class="num" id="num">1 / 2</span>
+  <span class="num" id="num">1 / 3</span>
   <button id="prev" aria-label="Previous slide">‹</button>
   <button id="next" aria-label="Next slide">›</button>
 </div>
